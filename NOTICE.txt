@@ -1,0 +1,7 @@
+VBA libraries for Excel
+https://github.com/mnpopcenter/vba-libs
+
+Copyright 2015-2016 Regents of the University of Minnesota
+
+Contributors:
+  Jimm Domingo, Minnesota Population Center, University of Minnesota
