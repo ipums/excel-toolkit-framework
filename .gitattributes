@@ -1,0 +1,3 @@
+# Class modules for VBA must have CRLF line endings in order for Excel on Mac
+# to correctly parse them.
+*.cls  eol=crlf
