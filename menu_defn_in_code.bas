@@ -7,27 +7,27 @@ Option Explicit
 '   https://github.com/mnpopcenter/vba-libs
 
 
-Const MENU_DEFINITION = _
-    "Foo | FooMacro"                                               & vbLf & _
-    "Bar | BarMacro"                                               & vbLf & _
-    "---------"                                                    & vbLf & _
-    "Compression ==>"                                              & vbLf & _
-    "     Normal      | CompressData ""Normal"""                   & vbLf & _
-    "     Fast        | CompressData ""Fast"""                     & vbLf & _
-    "     Best        | CompressData ""Best"""                     & vbLf & _
-    ""                                                             & vbLf & _
-    "-------"                                                      & vbLf & _
-    "Version  |  DisplayVersion"                                   & vbLf & _
-    ""                                                             & vbLf & _
-    ""                                                             & vbLf & _
-    "#    (enabled only in Development mode)"                      & vbLf & _
-    "#dev>----------------------------------"                      & vbLf & _
-    "#dev>Developer Tools  ==>"                                    & vbLf & _
-    "#dev>    Export VBA code           |  ExportVbaCode"          & vbLf & _
-    "#dev>    ------------------------"                            & vbLf & _
-    "#dev>    Build Production version  |  BuildProductionVersion"
+Const MENU_DEFINITION_STR = _
+             "Foo | FooMacro" _
+    & vbLf & "Bar | BarMacro" _
+    & vbLf & "---------" _
+    & vbLf & "Compression ==>" _
+    & vbLf & "     Normal      | CompressData ""Normal""" _
+    & vbLf & "     Fast        | CompressData ""Fast""" _
+    & vbLf & "     Best        | CompressData ""Best""" _
+    & vbLf & "" _
+    & vbLf & "-------" _
+    & vbLf & "Version  |  DisplayVersion" _
+    & vbLf & "" _
+    & vbLf & "" _
+    & vbLf & "#    (enabled only in Development mode)" _
+    & vbLf & "#dev>----------------------------------" _
+    & vbLf & "#dev>Developer Tools  ==>" _
+    & vbLf & "#dev>    Export VBA code           |  ExportVbaCode" _
+    & vbLf & "#dev>    ------------------------" _
+    & vbLf & "#dev>    Build Production version  |  BuildProductionVersion"
 
 Public Function LoadIntoArray(ByRef definition() As String) As Boolean
-    definition = Split(MENU_DEFINITION, vbLf)
+    definition = Split(MENU_DEFINITION_STR, vbLf)
     LoadIntoArray = True
 End Function
