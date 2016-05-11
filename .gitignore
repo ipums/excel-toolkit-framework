@@ -1,0 +1,5 @@
+# Temporary Excel files
+~*.xlam
+
+# Production version of toolkit that are built
+*_PROD.xlam
