@@ -8,6 +8,13 @@ Option Explicit
 
 Public Const MODULE_FILENAME = "bootstrap.bas"
 
+' The name and file path for the configuration and initialization modules that
+' are imported in Development mode.
+Public ConfModule_Name As String
+Public ConfModule_Path As String
+Public InitModule_Name As String
+Public InitModule_Path As String
+
 ' This module is NOT imported into the development version of the add-in.
 ' It is exported to MODULE_FILENAME so a copy of its code is under version
 ' control.  Changes to its code must be made in the Visual Basic editor.  To
@@ -19,22 +26,15 @@ Public Const MODULE_FILENAME = "bootstrap.bas"
 ' for this issue: http://stackoverflow.com/q/34498794/1258514)
 Public Sub InitializeAddIn()
     If ThisWorkbook.Name Like "*DEV*" Then
-        Dim conf_module_path As String
-        conf_module_path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
+        ConfModule_Path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
                                                           "conf.bas")
-        Dim init_module_path As String
-        init_module_path = ThisWorkbook.Path & Application.PathSeparator _
-                                             & "initialization.bas"
-        Dim conf_module
-        Dim init_module
+        InitModule_Path = ThisWorkbook.Path & Application.PathSeparator _
+                                            & "initialization.bas"
         With ThisWorkbook.VBProject.VBComponents
-            Set conf_module = .Import(conf_module_path)
-            Set init_module = .Import(init_module_path)
+            ConfModule_Name = .Import(ConfModule_Path).Name
+            InitModule_Name = .Import(InitModule_Path).Name
         End With
-        Application.Run "InitializeDevelopmentMode", conf_module.Name, _
-                                                     conf_module_path, _
-                                                     init_module.Name, _
-                                                     init_module_path
+        Application.Run "InitializeDevelopmentMode"
     Else
         Application.Run "InitializeProductionMode"
     End If

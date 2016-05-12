@@ -23,12 +23,8 @@ End Enum
 ' its Attribute VB_Name).
 Public ModulePaths As Collection
 
-Public Sub InitializeDevelopmentMode(conf_module_name As String, _
-                                     conf_module_path As String, _
-                                     init_module_name As String, _
-                                     init_module_path As String)
-    InitializeModulePaths conf_module_name, conf_module_path, _
-                          init_module_name, init_module_path
+Public Sub InitializeDevelopmentMode()
+    InitializeModulePaths
     LoadModules
     Application.Run "toolkit.Initialize", ToolkitMode.Development
 End Sub
@@ -38,20 +34,17 @@ Public Sub InitializeProductionMode()
 End Sub
 
 ' Initialize ModulePaths with the 3 modules that are initially in the add-in
-Private Sub InitializeModulePaths(conf_module_name As String, _
-                                  conf_module_path As String, _
-                                  init_module_name As String, _
-                                  init_module_path As String)
+Private Sub InitializeModulePaths()
     Set ModulePaths = New Collection
     Const STANDARD_MODULE_TYPE = 1
     Dim component
     For Each component In ThisWorkbook.VBProject.VBComponents
         If component.Type = STANDARD_MODULE_TYPE Then
             Dim module_path As String
-            If component.Name = conf_module_name Then
-                module_path = conf_module_path
-            ElseIf component.Name = init_module_name Then
-                module_path = init_module_path
+            If component.Name = bootstrap.ConfModule_Name Then
+                module_path = bootstrap.ConfModule_Path
+            ElseIf component.Name = bootstrap.InitModule_Name Then
+                module_path = bootstrap.InitModule_Path
             Else
                 ' Only other module is the bootstrap one
                 module_path = PathInThisWorkbookDir(bootstrap.MODULE_FILENAME)
