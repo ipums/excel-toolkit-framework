@@ -9,7 +9,7 @@ Option Explicit
 
 ' Module dependencies:
 '   conf
-'   initialization
+'   loader
 '   toolkit
 
 
@@ -34,7 +34,7 @@ Public Sub ExportVbaCode()
         If component.Name = "ThisWorkbook" Or component.Name = "Sheet1" Then
             module_path = PathInThisWorkbookDir(component.Name & ".cls")
         Else
-            module_path = initialization.ModulePaths(component.Name)
+            module_path = loader.ModulePaths(component.Name)
         End If
         component.Export module_path
         Dim file_name As String

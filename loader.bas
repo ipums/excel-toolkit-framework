@@ -1,4 +1,4 @@
-Attribute VB_Name = "initialization"
+Attribute VB_Name = "loader"
 Option Explicit
 
 ' This file is part of the Minnesota Population Center's VBA libraries project.
@@ -17,14 +17,9 @@ Option Explicit
 ' its Attribute VB_Name).
 Public ModulePaths As Collection
 
-Public Sub InitializeDevelopmentMode()
+Public Sub LoadToolkitModules()
     InitializeModulePaths
     LoadModules
-    Application.Run "toolkit.Initialize"
-End Sub
-
-Public Sub InitializeProductionMode()
-    Application.Run "toolkit.Initialize"
 End Sub
 
 ' Initialize ModulePaths with the 3 modules that are initially in the add-in
@@ -37,8 +32,8 @@ Private Sub InitializeModulePaths()
             Dim module_path As String
             If component.Name = bootstrap.ConfModule_Name Then
                 module_path = bootstrap.ConfModule_Path
-            ElseIf component.Name = bootstrap.InitModule_Name Then
-                module_path = bootstrap.InitModule_Path
+            ElseIf component.Name = bootstrap.LoaderModule_Name Then
+                module_path = bootstrap.LoaderModule_Path
             Else
                 ' Only other module is the bootstrap one
                 module_path = PathInThisWorkbookDir(bootstrap.MODULE_FILENAME)

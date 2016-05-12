@@ -17,12 +17,12 @@ End Enum
 ' The mode that the add-in is currently running in.
 Public CurrentMode As ToolkitMode
 
-' The name and file path for the configuration and initialization modules that
+' The name and file path for the configuration and loader modules that
 ' are imported in Development mode.
 Public ConfModule_Name As String
 Public ConfModule_Path As String
-Public InitModule_Name As String
-Public InitModule_Path As String
+Public LoaderModule_Name As String
+Public LoaderModule_Path As String
 
 ' This module is NOT imported into the development version of the add-in.
 ' It is exported to MODULE_FILENAME so a copy of its code is under version
@@ -38,15 +38,15 @@ Public Sub InitializeAddIn()
         CurrentMode = Development
         ConfModule_Path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
                                                           "conf.bas")
-        InitModule_Path = ThisWorkbook.Path & Application.PathSeparator _
-                                            & "initialization.bas"
+        LoaderModule_Path = ThisWorkbook.Path & Application.PathSeparator _
+                                              & "loader.bas"
         With ThisWorkbook.VBProject.VBComponents
             ConfModule_Name = .Import(ConfModule_Path).Name
-            InitModule_Name = .Import(InitModule_Path).Name
+            LoaderModule_Name = .Import(LoaderModule_Path).Name
         End With
-        Application.Run "InitializeDevelopmentMode"
+        Application.Run "loader.LoadToolkitModules"
     Else
         CurrentMode = Production
-        Application.Run "InitializeProductionMode"
     End If
+    Application.Run "toolkit.Initialize"
 End Sub
