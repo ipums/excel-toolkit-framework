@@ -11,12 +11,6 @@ Option Explicit
 '   bootstrap
 '   conf
 
-Public Enum ToolkitMode
-    Unknown = 0   ' So an uninitialized variable will have this value
-    Development
-    Production
-End Enum
-
 ' The list of full paths to all the modules in the add-in.  They are in the
 ' order that they are imported into the development version of the add-in.
 ' Each path is also indexed by the module's name (i.e., what's specified by
@@ -26,11 +20,11 @@ Public ModulePaths As Collection
 Public Sub InitializeDevelopmentMode()
     InitializeModulePaths
     LoadModules
-    Application.Run "toolkit.Initialize", ToolkitMode.Development
+    Application.Run "toolkit.Initialize"
 End Sub
 
 Public Sub InitializeProductionMode()
-    Application.Run "toolkit.Initialize", ToolkitMode.Production
+    Application.Run "toolkit.Initialize"
 End Sub
 
 ' Initialize ModulePaths with the 3 modules that are initially in the add-in

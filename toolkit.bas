@@ -8,13 +8,10 @@ Option Explicit
 
 
 ' Module dependencies:
+'   bootstrap       (CurrentMode, ToolkitMode)
 '   conf
-'   initialization   (ToolkitMode)
 '   menu_definition
 '   menu
-
-' The mode that the toolkit is currently running in
-Public CurrentMode As ToolkitMode
 
 ' Date when the production version was built
 Public Const BUILD_DATE_FORMAT = "mmmm d, yyyy"
@@ -24,9 +21,8 @@ Public BuildDate As String
 ' Even add-ins have at least 1 worksheet
 Public Const BUILT_WHEN_CELL = "$A$1"
 
-Public Sub Initialize(mode As ToolkitMode)
-    CurrentMode = mode
-    If mode = ToolkitMode.Development Then
+Public Sub Initialize()
+    If CurrentMode = ToolkitMode.Development Then
         toolkit.BuildDate = "Development version"
     Else
         Dim builtWhen As Date
@@ -40,7 +36,7 @@ Public Sub Initialize(mode As ToolkitMode)
 
     Dim menu_defn() As String
     If menu_definition.LoadIntoArray(menu_defn) Then
-        CreateToolkitMenu mode, menu_defn
+        CreateToolkitMenu menu_defn
     End If
 End Sub
 

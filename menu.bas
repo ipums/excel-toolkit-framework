@@ -8,23 +8,22 @@ Option Explicit
 
 
 ' Module dependencies:
+'   bootstrap      (CurrentMode, ToolkitMode)
 '   conf
 '   Excel_version
-'   initialization  (has ToolkitMode)
 '   menu_library
 
 Private myMenuName As String
 
-Public Sub CreateToolkitMenu(current_mode As ToolkitMode, _
-                             ByRef definition() As String)
+Public Sub CreateToolkitMenu(ByRef definition() As String)
     myMenuName = conf.MENU_NAME
-    If current_mode = ToolkitMode.Development Then
+    If CurrentMode = ToolkitMode.Development Then
         myMenuName = myMenuName & " (dev)"
     ElseIf ThisWorkbook.Name Like "*PROD*" Then
         myMenuName = myMenuName & " (prod)"
     End If
 
-    If current_mode = ToolkitMode.Development Then
+    If CurrentMode = ToolkitMode.Development Then
         EnableDevelopersMenu definition
     End If
 

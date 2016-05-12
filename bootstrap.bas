@@ -8,6 +8,15 @@ Option Explicit
 
 Public Const MODULE_FILENAME = "bootstrap.bas"
 
+Public Enum ToolkitMode
+    Unknown = 0   ' So an uninitialized variable will have this value
+    Development
+    Production
+End Enum
+
+' The mode that the add-in is currently running in.
+Public CurrentMode As ToolkitMode
+
 ' The name and file path for the configuration and initialization modules that
 ' are imported in Development mode.
 Public ConfModule_Name As String
@@ -26,6 +35,7 @@ Public InitModule_Path As String
 ' for this issue: http://stackoverflow.com/q/34498794/1258514)
 Public Sub InitializeAddIn()
     If ThisWorkbook.Name Like "*DEV*" Then
+        CurrentMode = Development
         ConfModule_Path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
                                                           "conf.bas")
         InitModule_Path = ThisWorkbook.Path & Application.PathSeparator _
@@ -36,6 +46,7 @@ Public Sub InitializeAddIn()
         End With
         Application.Run "InitializeDevelopmentMode"
     Else
+        CurrentMode = Production
         Application.Run "InitializeProductionMode"
     End If
 End Sub
