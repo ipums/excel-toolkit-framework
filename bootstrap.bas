@@ -34,6 +34,10 @@ Public LoaderModule_Path As String
 ' Called by ThisWorkbook.Workbook_Open event procedure (as a workaround
 ' for this issue: http://stackoverflow.com/q/34498794/1258514)
 Public Sub InitializeAddIn()
+    If ThisWorkbook.Name Like "*NO-LOAD*" Then
+        ' Do not import any modules so developer can change file properties.
+        Exit Sub
+    End If
     If ThisWorkbook.Name Like "*DEV*" Then
         CurrentMode = Development
         ConfModule_Path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
