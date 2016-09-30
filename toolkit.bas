@@ -8,7 +8,7 @@ Option Explicit
 
 
 ' Module dependencies:
-'   bootstrap       (CurrentMode, ToolkitMode)
+'   bootstrap       (CurrentMode, ToolkitMode, CurrentEdition, ToolkitEdition)
 '   conf
 '   menu_definition
 '   menu
@@ -21,13 +21,22 @@ Public BuildDate As String
 ' Even add-ins have at least 1 worksheet
 Public Const BUILT_WHEN_CELL = "$A$1"
 
+' Toolkit's base file name without edition marker (_DEV|_PROD) and extension
+Public BaseFileName As String
+
 Public Sub Initialize()
     If CurrentMode = ToolkitMode.Development Then
         toolkit.BuildDate = "Development version"
+        toolkit.BaseFileName = Replace(ThisWorkbook.Name, "_DEV.xlam", "")
     Else
         Dim builtWhen As Date
         builtWhen = ThisWorkbook.Worksheets(1).Range(BUILT_WHEN_CELL).Value
         toolkit.BuildDate = Format(builtWhen, BUILD_DATE_FORMAT)
+        If CurrentEdition = ToolkitEdition.BuiltProduction Then
+            toolkit.BaseFileName = Replace(ThisWorkbook.Name, "_PROD.xlam", "")
+        Else
+            toolkit.BaseFileName = Replace(ThisWorkbook.Name, ".xlam", "")
+        End If
     End If
 
     If conf.ADDITIONAL_INIT_MACRO <> "" Then
