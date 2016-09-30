@@ -17,6 +17,16 @@ End Enum
 ' The mode that the add-in is currently running in.
 Public CurrentMode As ToolkitMode
 
+Public Enum ToolkitEdition
+    Unknown = 0          ' So an uninitialized variable will have this value
+    Development          ' (toolkit base name)_DEV.xlam
+    BuiltProduction      ' (toolkit base name)_PROD.xlam
+    InstalledProduction  ' (toolkit base name).xlam
+End Enum
+
+' The current edition that the add-in represents
+Public CurrentEdition As ToolkitEdition
+
 ' The name and file path for the configuration and loader modules that
 ' are imported in Development mode.
 Public ConfModule_Name As String
@@ -39,7 +49,8 @@ Public Sub InitializeAddIn()
         Exit Sub
     End If
     If ThisWorkbook.Name Like "*DEV*" Then
-        CurrentMode = Development
+        CurrentMode = ToolkitMode.Development
+        CurrentEdition = ToolkitEdition.Development
         ConfModule_Path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
                                                           "conf.bas")
         LoaderModule_Path = ThisWorkbook.Path & Application.PathSeparator _
@@ -50,7 +61,12 @@ Public Sub InitializeAddIn()
         End With
         Application.Run "loader.LoadToolkitModules"
     Else
-        CurrentMode = Production
+        CurrentMode = ToolkitMode.Production
+        If ThisWorkbook.Name Like "*PROD*" Then
+            CurrentEdition = ToolkitEdition.BuiltProduction
+        Else
+            CurrentEdition = ToolkitEdition.InstalledProduction
+        End If
     End If
     Application.Run "toolkit.Initialize"
 End Sub
