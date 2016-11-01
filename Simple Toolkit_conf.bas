@@ -10,7 +10,7 @@ Option Explicit
 ' Used as the title of message boxes
 Public Const TOOLKIT_NAME = "Simple Tools"
 
-Public Const VERSION_STR = "1.2.3-beta.4"
+Public Const VERSION_STR = "1.2.0"
 
 Public Const MENU_NAME = "&Simple Tools"
 
