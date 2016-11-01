@@ -39,15 +39,21 @@ Option Explicit
 ' submenu separator must be indented at least 4 spaces.
 '
 Sub AddCustomMenu(menuName As String, definition() As String, _
-                  Optional insertBefore As String = "Help")
-    Dim helpMenuIndex As Integer
+                  Optional insertBefore As String = "")
+    Dim helpMenu As CommandBarControl
     Dim customMenu As CommandBarControl
     Dim mainMenuBar As CommandBar
   
     Set mainMenuBar = Application.CommandBars("Worksheet Menu Bar")
-    helpMenuIndex = mainMenuBar.Controls(insertBefore).Index
+    If insertBefore = "" Then
+        ' By default, look up Help menu by its control id since its name
+        ' is language-dependent
+        Set helpMenu = mainMenuBar.FindControl(ID:=30010)
+    Else
+        Set helpMenu = mainMenuBar.Controls(insertBefore)
+    End If
     Set customMenu = mainMenuBar.Controls.Add(Type:=msoControlPopup, _
-                                              Before:=helpMenuIndex)
+                                              Before:=helpMenu.Index)
     customMenu.Caption = menuName
 
     Dim line As String
