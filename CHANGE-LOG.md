@@ -3,6 +3,16 @@
 All notable changes to this project are documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+v1.3.0 (release candidate 1)
+----------------------------
+2016-10-31
+
+- Fixed [issue #4][], so the toolkit's menu should work with languages other
+  than English.  (Note: still needs verified with a non-English version of
+  Excel.)
+
+[issue #4]: https://github.com/mnpopcenter/vba-libs/issues/4
+
 v1.2.0
 ------
 2016-09-30
