@@ -8,6 +8,10 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 
+Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
+    bootstrap.BeforeToolkitSave SaveAsUI, Cancel
+End Sub
+
 Private Sub Workbook_Open()
     bootstrap.InitializeAddIn
 End Sub

@@ -8,6 +8,7 @@ Option Explicit
 
 
 ' Module dependencies:
+'   bootstrap
 '   conf
 '   loader
 '   toolkit
@@ -99,12 +100,15 @@ Private Sub MakeProductionAddIn()
     titleDev = ThisWorkbook.Title
     Dim commentsDev As String
     commentsDev = ThisWorkbook.Comments
+
+    bootstrap.AllowToolkitSave = True
     With ThisWorkbook
         .Title = Replace(titleDev, " (dev)", "")
         .Comments = Replace(commentsDev, "development version", _
                                          "version " & conf.VERSION_STR)
         .SaveAs ProductionAddInPath, xlOpenXMLAddIn
     End With
+    bootstrap.AllowToolkitSave = False
 
     ' Restore the development version of Title and Comments
     With ThisWorkbook

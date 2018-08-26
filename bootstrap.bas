@@ -34,6 +34,11 @@ Public ConfModule_Path As String
 Public LoaderModule_Name As String
 Public LoaderModule_Path As String
 
+' Can this toolkit edition be saved?
+' By default, no.  Only the development edition can be saved when building
+' the production edition.
+Public AllowToolkitSave As Boolean
+
 ' This module is NOT imported into the development version of the add-in.
 ' It is exported to MODULE_FILENAME so a copy of its code is under version
 ' control.  Changes to its code must be made in the Visual Basic editor.  To
@@ -45,9 +50,12 @@ Public LoaderModule_Path As String
 ' for this issue: http://stackoverflow.com/q/34498794/1258514)
 Public Sub InitializeAddIn()
     If ThisWorkbook.Name Like "*NO-LOAD*" Then
+        AllowToolkitSave = True
         ' Do not import any modules so developer can change file properties.
         Exit Sub
     End If
+
+    AllowToolkitSave = False
     If ThisWorkbook.Name Like "*DEV*" Then
         CurrentMode = ToolkitMode.Development
         CurrentEdition = ToolkitEdition.Development
@@ -69,4 +77,25 @@ Public Sub InitializeAddIn()
         End If
     End If
     Application.Run "toolkit.Initialize"
+End Sub
+
+' Determine whether to allow the current toolkit edition to be saved.
+'
+' Called from ThisWorkbook.Workbook_BeforeSave event handler.
+Public Sub BeforeToolkitSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
+    If Not AllowToolkitSave Then
+        Cancel = True
+        If CurrentMode = ToolkitEdition.Development Then
+            TellUser_SavingDisabled
+        End If
+    End If
+End Sub
+
+Private Sub TellUser_SavingDisabled()
+    MsgBox "Saving the Development edition of this toolkit" & vbCr & _
+           "(" & ThisWorkbook.Name & ") from the VB editor is not" & vbCr & _
+           "allowed.  Instead, select this action in its menu:" & vbCr & _
+           vbCr & _
+           "    Developer Tools --> Export VBA code", _
+           vbCritical
 End Sub
