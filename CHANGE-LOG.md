@@ -3,6 +3,19 @@
 All notable changes to this project are documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+Not Yet Released
+----------------
+
+### Fixed
+
+- Fixed [issue #5][].  If a developer tries to save the Development edition
+  of her toolkit in the VB Editor, she's informed that operation is not
+  allowed, and instead, to use the "Export VBA code" item in the toolkit's
+  "Developer Tools" menu.
+
+[issue #5]: https://github.com/mnpopcenter/vba-libs/issues/5
+
+
 v1.3.0 (release candidate 1)
 ----------------------------
 2016-10-31
