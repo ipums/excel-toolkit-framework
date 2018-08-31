@@ -8,6 +8,9 @@ Option Explicit
 
 Public Const MODULE_FILENAME = "bootstrap.bas"
 
+' The module that's used to update the toolkit's core modules
+Private Const MODULE_FOR_CORE_UPDATES = "update_core"
+
 Public Enum ToolkitMode
     Unknown = 0   ' So an uninitialized variable will have this value
     Development
@@ -83,6 +86,20 @@ End Sub
 '
 ' Called from ThisWorkbook.Workbook_BeforeSave event handler.
 Public Sub BeforeToolkitSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
+    ' Don't allow NO-LOAD edition to save if the module for updating the core
+    ' modules hasn't been unloaded yet.
+    If ThisWorkbook.Name Like "*_NO-LOAD.xlam" Then
+        If IsModuleLoaded(MODULE_FOR_CORE_UPDATES) Then
+            Cancel = True
+            MsgBox "The toolkit cannot be saved with the " & _
+                   MODULE_FOR_CORE_UPDATES & " module loaded.  Please" & _
+                   " run the macro to unload it first.", vbExclamation
+        End If
+        ' Don't check the AllowToolkitSave module variable because when the
+        ' bootstrap module's source code is changed, that variable is reset
+        ' (i.e., which for Boolean variables means it's = False).
+        Exit Sub
+    End If
     If Not AllowToolkitSave Then
         Cancel = True
         If CurrentMode = ToolkitEdition.Development Then
@@ -99,3 +116,42 @@ Private Sub TellUser_SavingDisabled()
            "    Developer Tools --> Export VBA code", _
            vbCritical
 End Sub
+
+' ---------------------------------------------------------------------------
+' Subprocedures for updating the toolkit's core modules when needed
+
+Private Sub LoadModuleForCoreUpdates()
+    If IsModuleLoaded(MODULE_FOR_CORE_UPDATES) Then
+        MsgBox "The " & MODULE_FOR_CORE_UPDATES & " module has" & _
+               " already been loaded", vbExclamation
+    Else
+        Dim module_path As String
+        module_path = ThisWorkbook.Path & Application.PathSeparator & _
+                      MODULE_FOR_CORE_UPDATES & ".bas"
+        ThisWorkbook.VBProject.VBComponents.Import(module_path)
+        MsgBox "Loaded the " & MODULE_FOR_CORE_UPDATES & " module"
+    End If
+End Sub
+
+Private Sub UnloadModuleForCoreUpdates()
+    If IsModuleLoaded(MODULE_FOR_CORE_UPDATES) Then
+        With ThisWorkbook.VBProject
+            .VBComponents.Remove .VBComponents(MODULE_FOR_CORE_UPDATES)
+        End With
+        MsgBox "Unloaded the " & MODULE_FOR_CORE_UPDATES & " module"
+    Else
+        MsgBox "The " & MODULE_FOR_CORE_UPDATES & " module is" & _
+               " not loaded.", vbExclamation
+    End If
+End Sub
+
+Private Function IsModuleLoaded(module_name) As Boolean
+    On Error Goto NoSuchModule
+    With ThisWorkbook.VBProject.VBComponents(module_name)
+        ' Do nothing
+    End With
+    IsModuleLoaded = True
+    Exit Function
+NoSuchModule:
+    IsModuleLoaded = False
+End Function
