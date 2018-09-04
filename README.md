@@ -14,3 +14,10 @@ See the [LICENSE.md][] file for the project's license.
 
 [NOTICE.txt]: https://github.com/mnpopcenter/vba-libs/blob/master/NOTICE.txt
 [LICENSE.md]: https://github.com/mnpopcenter/vba-libs/blob/master/LICENSE.md
+
+## Releases
+
+The [Change Log][] lists the versions that have been released and
+describes the changes in each version.
+
+[Change Log]: https://github.com/mnpopcenter/vba-libs/blob/master/CHANGE-LOG.md
