@@ -122,14 +122,13 @@ End Sub
 
 Private Sub LoadModuleForCoreUpdates()
     If IsModuleLoaded(MODULE_FOR_CORE_UPDATES) Then
-        MsgBox "The " & MODULE_FOR_CORE_UPDATES & " module has" & _
-               " already been loaded", vbExclamation
+        ReportModuleStatus "is already loaded"
     Else
         Dim module_path As String
         module_path = ThisWorkbook.Path & Application.PathSeparator & _
                       MODULE_FOR_CORE_UPDATES & ".bas"
-        ThisWorkbook.VBProject.VBComponents.Import(module_path)
-        MsgBox "Loaded the " & MODULE_FOR_CORE_UPDATES & " module"
+        ThisWorkbook.VBProject.VBComponents.Import (module_path)
+        ReportModuleStatus "loaded"
     End If
 End Sub
 
@@ -138,15 +137,19 @@ Private Sub UnloadModuleForCoreUpdates()
         With ThisWorkbook.VBProject
             .VBComponents.Remove .VBComponents(MODULE_FOR_CORE_UPDATES)
         End With
-        MsgBox "Unloaded the " & MODULE_FOR_CORE_UPDATES & " module"
+        ReportModuleStatus "unloaded"
     Else
-        MsgBox "The " & MODULE_FOR_CORE_UPDATES & " module is" & _
-               " not loaded.", vbExclamation
+        ReportModuleStatus "is not loaded"
     End If
 End Sub
 
+Private Sub ReportModuleStatus(mod_status As String)
+    Debug.Print ThisWorkbook.Name & " -- " & MODULE_FOR_CORE_UPDATES & _
+                " module " & mod_status
+End Sub
+
 Private Function IsModuleLoaded(module_name) As Boolean
-    On Error Goto NoSuchModule
+    On Error GoTo NoSuchModule
     With ThisWorkbook.VBProject.VBComponents(module_name)
         ' Do nothing
     End With
