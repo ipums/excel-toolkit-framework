@@ -121,6 +121,12 @@ End Sub
 ' Subprocedures for updating the toolkit's core modules when needed
 
 Private Sub LoadModuleForCoreUpdates()
+    If Not ThisWorkbook.Name Like "*_NO-LOAD.xlam" Then
+        MsgBox "Error: the LoadModuleForCoreUpdates macro should only be" _
+               & " run in a toolkit's NO-LOAD edition.", vbCritical
+        Exit Sub
+    End If
+
     If IsModuleLoaded(MODULE_FOR_CORE_UPDATES) Then
         ReportModuleStatus "is already loaded"
     Else

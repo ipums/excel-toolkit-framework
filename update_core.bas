@@ -13,12 +13,6 @@ Option Explicit
 '   bootstrap.bas
 '
 Public Sub UpdateCoreModules()
-    If Not ThisWorkbook.Name Like "*_NO-LOAD.xlam" Then
-        MsgBox "Error: the update_core.bas module should only be imported" _
-               & " into a toolkit's NO-LOAD edition.", vbCritical
-        Exit Sub
-    End If
-
     UpdateCoreModuleFrom "ThisWorkbook.cls", vbCrLf & "Private Sub"
     UpdateCoreModuleFrom "bootstrap.bas", "Option Explicit"
 
