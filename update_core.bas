@@ -16,13 +16,8 @@ Public Sub UpdateCoreModules()
     UpdateCoreModuleFrom "ThisWorkbook.cls", vbCrLf & "Private Sub"
     UpdateCoreModuleFrom "bootstrap.bas", "Option Explicit"
 
-    MsgBox "The core modules in """ & ThisWorkbook.Name & """:" & vbCr & _
-           vbCr & _
-           "    ThisWorkbook" & vbCr & _
-           "    bootstrap" & vbCr & _
-           vbCr & _
-           "have been updated.  After reviewing the changes," & vbCr & _
-           "remember to save that add-in."
+    Debug.Print ThisWorkbook.Name & " -- after reviewing the changes, " & _
+                                        "save the file"
 End Sub
 
 ' Update the source code of a core module from its corresponding code file.
@@ -71,4 +66,6 @@ Private Sub UpdateCoreModuleFrom(source_file_name As String, _
             End If
         End If
     End With
+
+    Debug.Print ThisWorkbook.Name & " -- core module updated: " & module_name
 End Sub
