@@ -6,6 +6,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Not Yet Released
 ----------------
 
+### Added
+
+- Two new helper macros to the `bootstrap.bas` module along with a new
+  special `update_core.bas` module.  Together, they provide a mechanism for
+  developers that use this add-in framework to [update the core modules][]
+  in their toolkits when a new release of this framework contains changes
+  to those core modules.
+
 ### Fixed
 
 - Fixed [issue #5][].  If a developer tries to save the Development edition
@@ -13,6 +21,7 @@ Not Yet Released
   allowed, and instead, to use the "Export VBA code" item in the toolkit's
   "Developer Tools" menu.
 
+[update the core modules]: https://github.com/mnpopcenter/vba-libs/wiki/Updating-Your-Toolkit#updating-core-modules
 [issue #5]: https://github.com/mnpopcenter/vba-libs/issues/5
 
 
