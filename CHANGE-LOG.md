@@ -3,8 +3,12 @@
 All notable changes to this project are documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-Not Yet Released
-----------------
+
+v1.3.0
+------
+2018-09-06
+
+> Note: this release includes changes to the core modules.
 
 ### Added
 
