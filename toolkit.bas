@@ -19,7 +19,7 @@ Public BuildDate As String
 
 ' Cell where build date & time of production version is stored.
 ' Even add-ins have at least 1 worksheet
-Public Const BUILT_WHEN_CELL = "$A$1"
+Public Const BUILT_WHEN_CELL = "$Z$1"
 
 ' Toolkit's base file name without edition marker (_DEV|_PROD) and extension
 Public BaseFileName As String
