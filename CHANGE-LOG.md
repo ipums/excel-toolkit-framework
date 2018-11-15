@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+v1.3.1
+------
+2018-11-15
+
+This minor revision changes the cell in the hidden Sheet1 that is
+used to store version and date built information from A1 to Z1.
+This change does not change behavior in any way, was done to
+accommodate use of cell A1 by a different function outside this
+library.
+
 v1.3.0
 ------
 2018-09-06
