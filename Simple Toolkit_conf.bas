@@ -18,20 +18,9 @@ Public Const MENU_NAME = "&Simple Tools"
 ' toolkit.  If not blank, it is run before the toolkit's menu is created.
 Public Const ADDITIONAL_INIT_MACRO = ""
 
-' The order of these lists determines the order that the modules are imported.
+' The order of the list determines the order that the modules are imported.
 ' Therefore, if module FOO depends on modules BAR and QUX, then make sure
 ' FOO is after BAR and QUX in the list.
-
-Public Const FRAMEWORK_MODULES = _
-       "excel_ver.bas" _
-    & "|file_utils.bas" _
-    & "|menu_lib.bas" _
-    & "|menu.bas" _
-    & "|toolkit.bas" _
-    & "|dev_tools.bas"
-
 Public Const TOOLKIT_MODULES = _
        "menu_defn_in_code.bas" _
     & "|tools.bas"
-
-Public Const MODULE_FILENAMES = FRAMEWORK_MODULES & "|" & TOOLKIT_MODULES

@@ -11,6 +11,16 @@ Option Explicit
 '   bootstrap
 '   conf
 
+
+Public Const FRAMEWORK_MODULES = _
+       "excel_ver.bas" _
+    & "|file_utils.bas" _
+    & "|menu_lib.bas" _
+    & "|menu.bas" _
+    & "|toolkit.bas" _
+    & "|dev_tools.bas"
+
+
 ' The list of full paths to all the modules in the add-in.  They are in the
 ' order that they are imported into the development version of the add-in.
 ' Each path is also indexed by the module's name (i.e., what's specified by
@@ -46,7 +56,8 @@ End Sub
 ' Import all the other modules in the toolkit
 Private Sub LoadModules()
     Dim module_file_names() As String
-    module_file_names = Split(conf.MODULE_FILENAMES, "|")
+    module_file_names = Split(FRAMEWORK_MODULES & "|" & conf.TOOLKIT_MODULES, _
+                              "|")
     With ThisWorkbook.VBProject.VBComponents
         Dim i As Integer
         For i = LBound(module_file_names) To UBound(module_file_names)
