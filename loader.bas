@@ -29,7 +29,8 @@ Public ModulePaths As Collection
 
 Public Sub LoadToolkitModules()
     InitializeModulePaths
-    LoadModules
+    LoadModules FRAMEWORK_MODULES
+    LoadModules conf.TOOLKIT_MODULES
 End Sub
 
 ' Initialize ModulePaths with the 3 modules that are initially in the add-in
@@ -53,11 +54,10 @@ Private Sub InitializeModulePaths()
     Next component
 End Sub
 
-' Import all the other modules in the toolkit
-Private Sub LoadModules()
+' Import a list of modules into the toolkit
+Private Sub LoadModules(name_list As String)
     Dim module_file_names() As String
-    module_file_names = Split(FRAMEWORK_MODULES & "|" & conf.TOOLKIT_MODULES, _
-                              "|")
+    module_file_names = Split(name_list, "|")
     With ThisWorkbook.VBProject.VBComponents
         Dim i As Integer
         For i = LBound(module_file_names) To UBound(module_file_names)
