@@ -29,7 +29,10 @@ Public ModulePaths As Collection
 
 Public Sub LoadToolkitModules()
     InitializeModulePaths
-    LoadModules FRAMEWORK_MODULES, ThisWorkbook.Path
+    Dim framework_dir As String
+    framework_dir = ThisWorkbook.Path & Application.PathSeparator _
+                                      & "framework"
+    LoadModules FRAMEWORK_MODULES, framework_dir
     LoadModules conf.TOOLKIT_MODULES, ThisWorkbook.Path
 End Sub
 
