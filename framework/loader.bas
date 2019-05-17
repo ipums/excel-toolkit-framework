@@ -27,12 +27,13 @@ Public Const FRAMEWORK_MODULES = _
 ' its Attribute VB_Name).
 Public ModulePaths As Collection
 
+Public Function FrameworkPathFor(module_name As String) As String
+    FrameworkPathFor = JoinPath(bootstrap.FrameworkDirectory, module_name)
+End Function
+
 Public Sub LoadToolkitModules()
     InitializeModulePaths
-    Dim framework_dir As String
-    framework_dir = ThisWorkbook.Path & Application.PathSeparator _
-                                      & "framework"
-    LoadModules FRAMEWORK_MODULES, framework_dir
+    LoadModules FRAMEWORK_MODULES, bootstrap.FrameworkDirectory
     LoadModules conf.TOOLKIT_MODULES, ThisWorkbook.Path
 End Sub
 
@@ -50,7 +51,7 @@ Private Sub InitializeModulePaths()
                 module_path = bootstrap.LoaderModule_Path
             Else
                 ' Only other module is the bootstrap one
-                module_path = PathInThisWorkbookDir(bootstrap.MODULE_FILENAME)
+                module_path = FrameworkPathFor(bootstrap.MODULE_FILENAME)
             End If
             ModulePaths.Add module_path, component.Name
         End If
