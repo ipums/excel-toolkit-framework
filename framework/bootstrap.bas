@@ -146,8 +146,8 @@ Private Sub LoadModuleForCoreUpdates()
         ReportModuleStatus "is already loaded"
     Else
         Dim module_path As String
-        module_path = ThisWorkbook.Path & Application.PathSeparator & _
-                      MODULE_FOR_CORE_UPDATES & ".bas"
+        module_path = JoinPath(FrameworkDirectory, _
+                               MODULE_FOR_CORE_UPDATES & ".bas")
         ThisWorkbook.VBProject.VBComponents.Import (module_path)
         ReportModuleStatus "loaded"
     End If
