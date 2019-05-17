@@ -66,8 +66,7 @@ Private Sub LoadModules(name_list As String, module_dir As String)
         Dim i As Integer
         For i = LBound(module_file_names) To UBound(module_file_names)
             Dim module_path As String
-            module_path = module_dir & Application.PathSeparator & _
-                          module_file_names(i)
+            module_path = JoinPath(module_dir, module_file_names(i))
             Dim imported_module
             Set imported_module = .Import(module_path)
             ModulePaths.Add module_path, imported_module.Name
@@ -76,6 +75,5 @@ Private Sub LoadModules(name_list As String, module_dir As String)
 End Sub
 
 Public Function PathInThisWorkbookDir(file_name As String) As String
-    PathInThisWorkbookDir = ThisWorkbook.Path & Application.PathSeparator _
-                                              & file_name
+    PathInThisWorkbookDir = JoinPath(ThisWorkbook.Path, file_name)
 End Function
