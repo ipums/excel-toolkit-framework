@@ -14,7 +14,8 @@ Option Explicit
 '
 Public Sub UpdateCoreModules()
     UpdateCoreModuleFrom "ThisWorkbook.cls", vbCrLf & "Private Sub"
-    UpdateCoreModuleFrom "bootstrap.bas", "Option Explicit"
+    Const FRAMEWORK_MODULE = True
+    UpdateCoreModuleFrom "bootstrap.bas", "Option Explicit", FRAMEWORK_MODULE
 
     Debug.Print ThisWorkbook.Name & " -- after reviewing the changes, " & _
                                         "save the file"
@@ -22,9 +23,15 @@ End Sub
 
 ' Update the source code of a core module from its corresponding code file.
 Private Sub UpdateCoreModuleFrom(source_file_name As String, _
-                                 initial_code_text As String)
+                                 initial_code_text As String, _
+                                 Optional in_framework As Boolean = False)
+    Dim source_dir As String
+    source_dir = ThisWorkbook.Path
+    If in_framework Then
+        source_dir = source_dir & Application.PathSeparator & "framework"
+    End If
     Dim source_file_path As String
-    source_file_path = ThisWorkbook.Path & Application.PathSeparator & _
+    source_file_path = source_dir & Application.PathSeparator & _
                        source_file_name
 
     Dim source_code As String
