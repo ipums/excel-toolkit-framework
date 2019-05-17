@@ -37,6 +37,9 @@ Public ConfModule_Path As String
 Public LoaderModule_Name As String
 Public LoaderModule_Path As String
 
+' The full path to the directory where framework modules are imported from.
+Public FrameworkDirectory As String
+
 ' Can this toolkit edition be saved?
 ' By default, no.  Only the development edition can be saved when building
 ' the production edition.
@@ -52,6 +55,8 @@ Public AllowToolkitSave As Boolean
 ' Called by ThisWorkbook.Workbook_Open event procedure (as a workaround
 ' for this issue: http://stackoverflow.com/q/34498794/1258514)
 Public Sub InitializeAddIn()
+    FrameworkDirectory = JoinPath(ThisWorkbook.Path, "framework")
+
     If ThisWorkbook.Name Like "*NO-LOAD*" Then
         AllowToolkitSave = True
         ' Do not import any modules so developer can change file properties.
@@ -64,8 +69,7 @@ Public Sub InitializeAddIn()
         CurrentEdition = ToolkitEdition.Development
         ConfModule_Path = Replace(ThisWorkbook.FullName, "DEV.xlam", _
                                                           "conf.bas")
-        LoaderModule_Path = ThisWorkbook.Path & Application.PathSeparator _
-                                              & "loader.bas"
+        LoaderModule_Path = JoinPath(FrameworkDirectory, "loader.bas")
         With ThisWorkbook.VBProject.VBComponents
             ConfModule_Name = .Import(ConfModule_Path).Name
             LoaderModule_Name = .Import(LoaderModule_Path).Name
@@ -81,6 +85,17 @@ Public Sub InitializeAddIn()
     End If
     Application.Run "toolkit.Initialize"
 End Sub
+
+' Construct a path by containing multiple strings together.
+Public Function JoinPath(path_part_1 As String, _
+                         path_part_2 As String, _
+                         ParamArray additional_parts() As Variant) As String
+    JoinPath = path_part_1 & Application.PathSeparator & path_part_2
+    Dim path_part As Variant
+    For Each path_part In additional_parts
+        JoinPath = JoinPath & Application.PathSeparator & CStr(path_part)
+    Next path_part
+End Function
 
 ' Determine whether to allow the current toolkit edition to be saved.
 '
